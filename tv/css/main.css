@@ -1,11 +1,31 @@
-.tv-wrapper {
+main {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.tv-wrapper {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.video-slider {
+  min-width: 80px;
+  min-height: 60px;
+  top: 100px;
+  left: 150px;
+  background-color: grey;
+  position: absolute;
 }
 
 .tv {
   min-width: 400px;
   min-height: 300px;
   background-color: brown;
+  top: 0;
+  left: 0;
+  position: relative;
 }
