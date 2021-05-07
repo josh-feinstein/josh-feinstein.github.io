@@ -1,0 +1,428 @@
+<html>
+	<head>
+		<title>Snake | JoshFeinstein.com</title>
+		<style>
+			body {
+				text-align: center;
+			}
+			canvas {
+				border: 1px solid #000000;
+			}
+			#instructions {
+				padding: 0 0 20px 0;
+			}
+			#game-wrapper {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+			}
+			#gameParams {
+				display: flex;
+				flex-direction: column;
+			}
+			#reset-button {
+				margin: 10px 0 0 0;
+			}
+			#keyboard-controls,
+			#mobile-controls {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			#mobile-controls-top-row {
+				margin: 10px 0 5px 0;
+			}
+			#keyboard-controls table {
+				padding: 10px;
+				border: 1px solid #000000;
+				text-align: center;
+				min-width: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Snake</h1>
+		<p id="instructions">If you decide to change gameplay options, press &#60;ENTER&#62; to restart your game.<br>Changes to game options and high scores will persist in your browser.</p>
+		<div id="game-wrapper">
+			<div id="game">
+				<canvas id="gameBoard" width="400" height="400" style="max-width: 400; max-height: 400;"></canvas>
+				<div id="mobile-controls">
+					<div id="mobile-controls-top-row">
+						<button id="move-up">Up</button>
+					</div>
+					<div id="mobile-controls-bottom-row">
+						<button id="move-left">Left</button>
+						<button id="move-down">Down</button>
+						<button id="move-right">Right</button>
+					</div>
+					<p>Use a keyboard for the best experience.</p>
+				</div>
+			</div>
+			<div id="data">
+				<div id="scoreboard">
+					<h4>- Leaderboard -</h4>
+					<span>High Score: </span><span id="high-score">0</span><br>
+					<span>Score: </span><span id="score">0</span><br><br>
+					<button id="clear-high-score-button">Clear High Score</button>
+				</div>
+				<div id="gameParams">
+					<h4>- Options -</h4>
+					<label> Apple Color:
+						<input id="apple-color" type="color" />
+					</label>
+					<label> Snake Color:
+						<input id="snake-color" type="color" />
+					</label>
+					<label> Background Color:
+						<input id="background-color" type="color" />
+					</label><br>
+					<label> Grid Size:
+						<input id="tile-count" type="number"/>
+					</label>
+					<label> Frames Per Second:
+						<input id="frames-per-second" type="number" />
+					</label>
+					<label> Default Tail Length:
+						<input id="tail-length" type="number" />
+					</label><br>
+					<button id="import-button">Import Settings</button>
+					<button id="reset-button">Reset All Values to Default</button>
+				</div>
+				<div id="keyboard-controls">
+					<h4>- Keyboard Controls -</h4>
+					<table>
+						<tr>
+							<th>Key:</th>
+							<th>Action:</th>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&#60;ENTER&#62;</td>
+							<td>Restart/Update Game</td>
+						</tr>
+						<tr>
+							<td>&#60;SPACE BAR&#62;</td>
+							<td>Pause/Unpause</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&#60; A / LEFT ARROW &#62;</td>
+							<td>Move Left</td>
+						</tr>
+						<tr>
+							<td>&#60; W / UP ARROW&#62;</td>
+							<td>Move Up</td>
+						</tr>
+						<tr>
+							<td>&#60; S / DOWN ARROW &#62;</td>
+							<td>Move Down</td>
+						</tr>
+						<tr>
+							<td>&#60; D / RIGHT ARROW &#62;</td>
+							<td>Move Right</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+	// gameplay variables
+	let score = 0;
+	let highScore = 0;
+	let tileCount = 20;
+	let tileCountMin = 5;
+	let tileCountMax = 25;
+	let framesPerSecond = 12;
+	let framesPerSecondMin = 2;
+	let framesPerSecondMax = 120;
+	let tailLength = 3;
+	let tailLengthMin = 1;
+	let tailLengthMax = 10;
+	let appleColor = '#F5F901';
+	let snakeColor = '#9E1ADB';
+	let backgroundColor = '#E3E3E3';
+	let playerStartX = Math.floor(tileCount/2);
+	let playerStartY = Math.floor(tileCount/2);
+	let appleStartX = getRandomInt(1, tileCount+1);
+	let appleStartY = getRandomInt(1, tileCount+1);
+	let frameRate;
+window.onload=function() {
+	// load values from localStorage
+	const storedHighScore = window.localStorage.getItem('highScore')
+	if (storedHighScore) {
+		highScore = storedHighScore;
+		document.getElementById("high-score").innerHTML = highScore;
+	} else {
+		window.localStorage.getItem('highScore', 0);
+	}
+	const storedTileCount = window.localStorage.getItem('tileCount')
+	if (storedTileCount) {
+		tileCount = storedTileCount;
+		document.getElementById("tile-count").value = tileCount;
+	}
+	const storedFramesPerSecond = window.localStorage.getItem('framesPerSecond')
+	if (storedFramesPerSecond) {
+		framesPerSecond = storedFramesPerSecond;
+		document.getElementById("frames-per-second").value = framesPerSecond;
+	}
+	const storedTailLength = window.localStorage.getItem('tailLength')
+	if (storedTailLength) {
+		tailLength = storedTailLength;
+		document.getElementById("tail-length").value = tailLength;
+	}
+	const storedAppleColor = window.localStorage.getItem('appleColor')
+	if (storedAppleColor) {
+		appleColor = storedAppleColor;
+		document.getElementById("apple-color").value = appleColor;
+	}
+	const storedSnakeColor = window.localStorage.getItem('snakeColor')
+	if (storedSnakeColor) {
+		snakeColor = storedSnakeColor;
+		document.getElementById("snake-color").value = snakeColor;
+	}
+	const storedBackgroundColor = window.localStorage.getItem('backgroundColor')
+	if (storedBackgroundColor) {
+		backgroundColor = storedBackgroundColor;
+		document.getElementById("background-color").value = backgroundColor;
+	}
+
+
+	canv=document.getElementById("gameBoard");
+	ctx=canv.getContext("2d");
+
+	// set Tile Count defaults
+	document.getElementById("tile-count").value = tileCount;
+	document.getElementById("tile-count").min = tileCountMin;
+	document.getElementById("tile-count").max = tileCountMax;
+
+	// set Frames Per Second defaults
+	document.getElementById("frames-per-second").value = framesPerSecond;
+	document.getElementById("frames-per-second").min = framesPerSecondMin;
+	document.getElementById("frames-per-second").max = framesPerSecondMax;
+
+	// set Tail Length defaults
+	document.getElementById("tail-length").value = tailLength;
+	document.getElementById("tail-length").min = tailLengthMin;
+	document.getElementById("tail-length").max = tailLengthMax;
+
+	// set color defaults
+	document.getElementById("apple-color").value = appleColor;
+	document.getElementById("snake-color").value = snakeColor;
+	document.getElementById("background-color").value = backgroundColor;
+
+	document.addEventListener("keydown",keyPush);
+
+	document.getElementById("move-left").addEventListener("click", function() {
+		xv=-1;yv=0;
+	})
+	document.getElementById("move-right").addEventListener("click", function() {
+		xv=1;yv=0;
+	})
+	document.getElementById("move-up").addEventListener("click", function() {
+		xv=0;yv=-1;
+	})
+	document.getElementById("move-down").addEventListener("click", function() {
+		xv=0;yv=1;
+	})
+
+	document.getElementById("clear-high-score-button").addEventListener("click", function() {
+		highScore = score;
+		window.localStorage.setItem('highScore', highScore);
+		document.getElementById("high-score").innerHTML = highScore;
+	})
+
+	document.getElementById("import-button").addEventListener("click", function() {
+		initializeGame();
+	})
+
+	document.getElementById("reset-button").addEventListener("click", function() {
+		let currentHighScore = window.localStorage.getItem('highScore');
+		window.localStorage.clear();
+		window.localStorage.setItem('highScore', currentHighScore);
+		location.reload();
+	})
+
+	// start game
+	initializeGame();
+}
+
+function initializeGame() {
+	clearInterval(frameRate);
+
+	tileCount = document.getElementById("tile-count").value;
+	framesPerSecond = document.getElementById("frames-per-second").value;
+	tailLength = document.getElementById("tail-length").value;
+	appleColor = document.getElementById("apple-color").value;
+	snakeColor = document.getElementById("snake-color").value;
+	backgroundColor = document.getElementById("background-color").value;
+
+	// Tile Count min/max handler
+	if (tileCount > tileCountMax) {
+		alert(`Sorry, but the maximum allowed value for Tile Count is ${tileCountMax}`)
+		document.getElementById("tile-count").value = tileCountMax;
+		tileCount = tileCountMax;
+	}
+	if (tileCount < tileCountMin) {
+		alert(`Sorry, but the minimum allowed value for Tile Count is ${tileCountMin}`)
+		document.getElementById("tile-count").value = tileCountMin;
+		tileCount = tileCountMin;
+	}
+	window.localStorage.setItem('tileCount', tileCount);
+
+	// Frames Per Second min/max handler
+	if (framesPerSecond > framesPerSecondMax) {
+		alert(`Sorry, but the maximum allowed value for Frames Per Second is ${framesPerSecondMax}`)
+		document.getElementById("frames-per-second").value = framesPerSecondMax;
+		framesPerSecond = framesPerSecondMax;
+	}
+	if (framesPerSecond < framesPerSecondMin) {
+		alert(`Sorry, but the minimum allowed value for Frames Per Second is ${framesPerSecondMin}`)
+		document.getElementById("frames-per-second").value = framesPerSecondMin;
+		framesPerSecond = framesPerSecondMin;
+	}
+	window.localStorage.setItem('framesPerSecond', framesPerSecond);
+	frameRate = setInterval(game,1000/framesPerSecond);
+
+	// Tail Length min/max handler
+	if (tailLength > tailLengthMax) {
+		alert(`Sorry, but the maximum allowed value for Tail Length is ${tailLengthMax}`)
+		document.getElementById("tail-length").value = tailLengthMax;
+		tailLength = tailLengthMax;
+	}
+	if (tailLength < tailLengthMin) {
+		alert(`Sorry, but the minimum allowed value for Tail Length is ${tailLengthMin}`)
+		document.getElementById("tail-length").value = tailLengthMin;
+		tailLength = tailLengthMin;
+	}
+	window.localStorage.setItem('tailLength', tailLength);
+
+  // store colors
+	window.localStorage.setItem('appleColor', appleColor);
+	window.localStorage.setItem('snakeColor', snakeColor);
+	window.localStorage.setItem('backgroundColor', backgroundColor);
+
+	canv.width = Math.pow(tileCount, 2);
+	canv.height = Math.pow(tileCount, 2);
+	canv.style.maxWidth = Math.pow(tileCount, 2);
+	canv.style.maxHeight = Math.pow(tileCount, 2);
+
+	appleStartX = getRandomInt(0, tileCount);
+	appleStartY = getRandomInt(0, tileCount);
+
+	px=playerStartX;
+	py=playerStartY;
+	gs=tc=tileCount;
+	ax=appleStartX;
+	ay=appleStartY;
+	xv=yv=0;
+	trail=[];
+	tail = tailLength;
+}
+
+function game() {
+	px+=xv;
+	py+=yv;
+	if(px<0) {
+		px= tc-1;
+	}
+	if(px>tc-1) {
+		px= 0;
+	}
+	if(py<0) {
+		py= tc-1;
+	}
+	if(py>tc-1) {
+		py= 0;
+	}
+	ctx.fillStyle=backgroundColor;
+	ctx.fillRect(0,0,canv.width,canv.height);
+
+	ctx.fillStyle=snakeColor;
+	for(var i=0;i<trail.length;i++) {
+		ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
+		// game over
+		if(trail[i].x==px && trail[i].y==py) {
+			tail = tailLength;
+			score = 0;
+			document.getElementById("score").innerHTML = score
+		}
+	}
+	trail.push({x:px,y:py});
+	while(trail.length>tail) {
+		trail.shift();
+	}
+
+	// snake eats apple
+	if(ax==px && ay==py) {
+		tail++;
+		ax=Math.floor(Math.random()*tc);
+		ay=Math.floor(Math.random()*tc);
+		score++;
+		document.getElementById("score").innerHTML = score
+		if (score > highScore) {
+			highScore = score;
+			document.getElementById("high-score").innerHTML = highScore
+			window.localStorage.setItem('highScore', highScore)
+		}
+	}
+	ctx.fillStyle=appleColor;
+	ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+}
+
+function pauseGame() {
+	alert('Game Paused')
+}
+
+function keyPush(evt) {
+	switch(evt.keyCode) {
+		// enter
+		case 13:
+			evt.preventDefault()
+			initializeGame();
+			break;
+		// space
+		case 32:
+			evt.preventDefault()
+			pauseGame();
+			break;
+		// left
+		case 37:
+		case 65:
+		  evt.preventDefault()
+			xv=-1;yv=0;
+			break;
+		// up
+		case 38:
+		case 87:
+			evt.preventDefault()
+			xv=0;yv=-1;
+			break;
+		// right
+		case 39:
+		case 68:
+			evt.preventDefault()
+			xv=1;yv=0;
+			break;
+		// down
+		case 40:
+		case 83:
+			evt.preventDefault()
+			xv=0;yv=1;
+			break;
+	}
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+</script>

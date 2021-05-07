@@ -1,1 +1,179 @@
-hello world
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="main.css" />
+    <script defer src="popup.js"></script>
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+    />
+
+    <title>
+      Josh Feinstein - Software Engineer
+    </title>
+  </head>
+
+  <body>
+    <div id="main-content">
+      <div id="popup-button">
+        <img class="main-about" src="/images/about-button.png" />
+      </div>
+
+      <!-- Begin Icons Row -->
+      <div id="icon-row">
+        <div>
+          <a href="http://dronevisionapp.com" target="_blank">
+            <img class="main-icons" src="/images/drone-vision.png" />
+          </a>
+        </div>
+        <div>
+          <a href="https://github.com/pillboxmediainc" target="_blank">
+            <img class="main-icons" src="/images/splash-royale.png" />
+          </a>
+        </div>
+        <div>
+          <a href="http://code-everest.com" target="_blank">
+            <img class="main-icons" src="/images/code-everest.png" />
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://chrome.google.com/webstore/detail/in-nyc-it-support-ticket/lbjheigldkaafnoeoiedpbmkmglbagjo?brand=CHBD&gclid=Cj0KCQiAjZLhBRCAARIsAFHWpbG4LlfGyUL1pZAx4Wz1EIh28WJSuZBj8iqTV8gCVbKT70PAAdn30zwaAq1QEALw_wcB&gclsrc=aw.ds"
+            target="_blank"
+            ><img
+              class="main-icons"
+              src="/images/innycit-support-ticket-helper.png"
+          /></a>
+        </div>
+        <div>
+          <a
+            href="https://github.com/pillboxmediainc/SPEEDREADER"
+            target="_blank"
+          >
+            <img class="main-icons" src="/images/speed-reader-+.png" />
+          </a>
+        </div>
+      </div>
+
+      <!-- End Icons Row -->
+
+      <!-- Begin Youtube Row -->
+      <div id="youtube-row">
+        <div class="video">
+          <iframe
+            width="390"
+            height="219"
+            src="https://www.youtube.com/embed/QZCpPIRSGmU"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="video">
+          <iframe
+            width="390"
+            height="219"
+            src="https://www.youtube.com/embed/mbd6CbNMj4w"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+      <!-- End Youtube Row -->
+
+      <!-- Begin Links Row -->
+      <div id="links">
+        <a href="https://github.com/josh-feinstein" target="_blank">
+          <img class="links-icon" src="/images/github.png" />
+        </a>
+        <a href="https://www.linkedin.com/in/josh-feinstein/" target="_blank">
+          <img class="links-icon" src="/images/linkedin.png" />
+        </a>
+        <a href="http://code-everest.com" target="_blank">
+          <img class="links-icon" src="/images/youtube.png" />
+        </a>
+        <a href="mailto:joshua.scott.feinstein@gmail.com" target="_blank">
+          <img class="links-icon" src="/images/email.png" />
+        </a>
+      </div>
+    </div>
+    <!-- End Links Row -->
+
+    <!-- Begin Video Row -->
+    <video autoplay loop id="video-background" muted plays-inline>
+      <source src="/video/video.mp4" type="video/mp4" />
+    </video>
+    <!-- End Video Row -->
+
+    <!-- Begin Popup Row -->
+    <div id="popup-bg" class="hidden">
+      <div class="popup-content">
+        <div class="close">+</div>
+        <div class="popup-header">
+          <div class="left-column">
+            <img class="photo" src="/images/josh-feinstein.jpg" />
+          </div>
+          <div class="center-column">
+            <h1>Josh Feinstein</h1>
+            <h2 class="subtitle">Software Engineer</h2>
+          </div>
+          <div class="right-column">
+            <a
+              href="/documents/Josh-Feinstein-Software-Engineer-Resume-2020.pdf"
+              target="_blank"
+              ><img class="resume-icon" src="/images/cv.png" />
+            </a>
+          </div>
+        </div>
+        <div id="bio-copy">
+          <p class="bio">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After
+            graduating from Washington University in St. Louis I began
+            freelancing as a web developer. After
+            many years of front-end web-development, I wanted to challenge
+            myself and studied to become a full-stack software engineer.
+          </p>
+          <p class="bio">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In early 2019 I graduated
+            from
+            <a
+              class="bio-link"
+              href="http://fullstackacademy.com"
+              target="_blank"
+              >Fullstack Academy of Code</a
+            >, and I now build web and mobile applications that allow me to employ my skillset
+            and engage my passion for learning and utilizing new technologies.
+          </p>
+          <p class="bio">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In
+            programming I believe I have found both my vocation and my passion.
+            It allows me to fully utilize my innate attention to detail,
+            mathematical inclination, and life-long love of technology. I have been inspired
+            to launch
+            <a class="bio-link" href="http://code-everest.com" target="_blank"
+              >Code Everest</a
+            >, a YouTube Channel where I challenge myself to write algorithms,
+            share coding projects, and explore new technologies.
+          </p>
+        </div>
+        <div class="popup-icons">
+          <a href="https://github.com/josh-feinstein" target="_blank">
+            <img class="popup-icon github" src="/images/github.png" />
+          </a>
+          <a href="https://www.linkedin.com/in/josh-feinstein/" target="_blank">
+            <img class="popup-icon linkedin" src="/images/linkedin.png" />
+          </a>
+          <a href="http://code-everest.com" target="_blank">
+            <img class="popup-icon youtube" src="/images/youtube.png" />
+          </a>
+          <a href="mailto:joshua.scott.feinstein@gmail.com" target="_blank">
+            <img class="popup-icon email" src="/images/email.png" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
