@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 main {
   display: flex;
   align-items: center;
@@ -6,26 +10,52 @@ main {
   height: 100%;
 }
 
+#vide-background-wrapper {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%; 
+  background-color: #000;
+  position: relative;
+}
+
+#video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  background-color: #000;
+}
+
+.opacity-filter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  background-color: #000;
+  opacity: 0.82;
+}
+
 .tv-wrapper {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+
+.tv {
+  max-width: 90vw;
+  max-height: 90vh;
   position: relative;
   top: 0;
   left: 0;
 }
 
 .video-slider {
-  min-width: 80px;
-  min-height: 60px;
-  top: 100px;
-  left: 150px;
-  background-color: grey;
   position: absolute;
-}
-
-.tv {
-  min-width: 400px;
-  min-height: 300px;
-  background-color: brown;
-  top: 0;
-  left: 0;
-  position: relative;
+  max-height: 51%;
+  top: 11%;
+  left: 11%;
 }
