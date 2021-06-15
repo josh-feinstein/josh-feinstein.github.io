@@ -1,6 +1,40 @@
 <html>
-  <meta
-    http-equiv="refresh"
-    content="0; URL='https://www.linkedin.com/in/josh-feinstein/'"
-  />
+  <head>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="shortcut icon" type="image/png" href="./images/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+    />
+    <title>Notorious CRT - Video Art // Oscillographics</title>
+  </head>
+  <body>
+    <main>
+      <!-- BEGIN VIDEO BACKGROUND -->
+      <!-- https://www.videezy.com/elements-and-effects/242-tv-static-hd-stock-video -->
+      <div id="video-background-wrapper">
+        <video id="video-background" autoplay loop  muted plays-inline>
+          <source src="./video/static.mp4" type="video/mp4" />
+        </video>
+        <div class="opacity-filter"></div>
+      </div>
+      <!-- END VIDEO BACKGROUNDs -->
+      <!-- BEGIN TV WRAPPER -->
+      <div class="tv-wrapper">
+        <video class="video-slider" autoplay loop id="video-slider" muted plays-inline>
+          <source src="./video/video.mp4" type="video/mp4" />
+        </video>
+        <img class="tv" src="./images/tv.png"/>
+      </div>
+      <!-- END TV WRAPPER -->
+    </main>
+    <footer>
+      <a href="https://instagram.com/notorious_crt" target="_blank">
+        <img src="./icons/instagram.svg" alt="instagram logo" />
+      </a>
+      <a href="https://www.youtube.com/channel/UC3nwAhExSYq4_V76fjfWkXg" target="_blank">
+        <img src="./icons/youtube.svg" alt="youtube logo" />
+      </a>
+    </footer>
+  </body>
 </html>
